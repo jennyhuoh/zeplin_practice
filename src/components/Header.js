@@ -1,10 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View , Image} from 'react-native';
+import { StyleSheet, Text, View , Image, TouchableOpacity} from 'react-native';
+import {navigationRef} from '../../ref';
+
 
 const Header = () => {
   return (
     <View style={styles.viewStyle}>
+      {/* <TouchableOpacity
+        onPress = {() => navigationRef.current?.navigate("Detail")}>
         <Image style = {styles.bar} source = {require('../img/btn_navbar_mobile.png')}/>
+      </TouchableOpacity> */}
         <View style = {styles.textbox}>
             <Text style = {styles.textStyle}>
                 My Book

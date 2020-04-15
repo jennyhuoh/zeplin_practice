@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View , Image} from 'react-native';
 
 
-const Bottom = ({navigation}) => {
+const Bottom = () => {
     return (
       <View style = {styles.bar}>
           <View style = {styles.left}>
