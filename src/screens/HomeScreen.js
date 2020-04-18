@@ -12,7 +12,6 @@ const HomeScreen = ({navigation}) =>{
             <ScrollView>
                 <BookList />
             </ScrollView>
-            <Bottom />
         </View>
     );
 }

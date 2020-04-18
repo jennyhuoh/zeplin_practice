@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import {NavigationContainer, DrawerActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -11,19 +13,72 @@ import {
 
 
 import HomeScreen from './src/screens/HomeScreen';
+import TabScreen from './src/screens/TabScreen';
 //import DetailScreen from './src/screens/DetailScreen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
+
+function Book ({navigation}) {
+  return(
+    <Tab.Navigator initialRouteName = 'My Book'
+      tabBarOptions = {{
+        activeTintColor: '#00b49f',
+        inactiveTintColor: '#818181',
+        style: {
+          height: 90  
+        }
+      }}>
+        <Tab.Screen name = "Home"
+        component = {TabScreen}
+        options = {{
+          title: "Home",
+          tabBarIcon: ({focused}) => {
+            if(focused ){
+              return(
+              <Image style = {styles.tabicon} source = {require('./src/img/icon_bottomnav_home_seleced.png')}/>)}
+              else{
+                return(
+             <Image style = {styles.tabicon} source = {require('./src/img/icon_bottomnav_home.png')}/>)}
+            }
+        }}/>
+        <Tab.Screen name = "My Book"
+        component = {HomeScreen}
+        options = {{
+          tabBarLabel: "My Book",
+          tabBarIcon: ({focused}) => {
+            if(focused){
+              return(
+                <Image style = {styles.tabicon} source = {require('./src/img/icon_bottomnav_mybook_selected.png')}/>)}
+                else{
+                  return(
+             <Image style = {styles.tabicon} source = {require('./src/img/icon_bottomnav_mybook.png')}/>)}
+          }
+        }}/>
+        <Tab.Screen name = "Favorites"
+        component = {TabScreen}
+        options = {{
+          abBarLabel: "Favorites",
+          tabBarIcon: ({focused}) => {
+            if(focused){
+              return(
+              <Image style = {styles.tabicon} source = {require('./src/img/icon_bottomnav_favorites_seleced.png')}/>)}
+              else {
+                return( <Image style = {styles.tabicon} source = {require('./src/img/icon_bottomnav_favorites.png')}/>)}
+          }
+        }}/>
+      </Tab.Navigator>
+  );
+}
 
 function StackScreen ({navigation, name}) {
   return(
     <Stack.Navigator initialRouteName = 'My Book'>
       <Stack.Screen 
-        name = "HomeScreen" 
-        component = {HomeScreen}
+        name = "Book" 
+        component = {Book}
         options = {() => ({
           title: 'My Book',
           headerTintColor: "#fff",
@@ -62,7 +117,7 @@ function CustomDrawerContent(props) {
           </View>
         </View>
       </View>
-      <DrawerItemList {...props} />
+      <DrawerItemList {...props} />     
     </DrawerContentScrollView>
   );
 }
@@ -71,15 +126,25 @@ const App = () => {
   const ref = React.useRef(null);
   return ( 
     <NavigationContainer ref = {ref}>
-      <Drawer.Navigator
+      <Drawer.Navigator initialRouteName = 'My Book'
         drawerContentOptions = {{
           activeTintColor: '#fff',
-          activeBackgroundColor: '#00b49f'
+          activeBackgroundColor: '#00b49f',
+          itemStyle: {
+            width: 304,
+            height: 54,
+            marginLeft: 0,
+            justifyContent: 'center'
+          }
         }}
         drawerContent = {props => <CustomDrawerContent {...props}/>}
         drawerStyle = {{
           backgroundColor: '#ebebeb',
-          width: 300
+          width: 304,
+          shadowOpacity: 0.4,
+          shadowColor: "#000",
+          shadowOffset: {width: 2, height: 0},
+          shadowRadius: 3
         }}>
           <Drawer.Screen 
             name = "Home"
@@ -142,17 +207,51 @@ const App = () => {
 }
 
 const styles = StyleSheet.create({
+  tabicon: {
+    marginBottom: 0
+  },
   bar: {
-    marginLeft: 7
+    marginLeft: 7,
   },
   search: {
     marginRight: 7
   },
   bg: {
-    backgroundColor: '#00b49f'
+    backgroundColor: '#00b49f',
+    height: 200,
+    marginTop: -50,
+    paddingLeft: 13
+  },
+  draweruser: {
+    marginTop: 70
+  },
+  username: {
+    paddingTop: 10,
+    paddingLeft: 4,
+    width: 230,
+    fontSize: 14,
+    color: "#fff",
+    fontWeight: '500'
+  },
+  useremail: {
+    paddingTop: 5,
+    paddingLeft: 4,
+    width: 230,
+    fontSize: 14,
+    color: "#fff",
+    fontWeight: '500'
+  },
+  drawerdown: {
+    marginTop: 12
   },
   drawercontent: {
     flexDirection: 'row'
+  },
+  pressedicon: {
+    marginLeft: 24
+  },
+  unpressicon: {
+    marginLeft: 24
   }
 });
 
